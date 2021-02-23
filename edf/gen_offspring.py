@@ -21,8 +21,7 @@ def quchong(p):
             view_code1.append(v)
             if k != 0:
                 fusion_code1.append(p[k+views_p-1])
-    pp = view_code1+fusion_code1
-    return pp
+    return view_code1+fusion_code1
 
 
 def crossover(p_1, p_2, crossover_rate, is_remove=is_remove, max_len=40):
@@ -32,22 +31,22 @@ def crossover(p_1, p_2, crossover_rate, is_remove=is_remove, max_len=40):
     views_p2 = utils.get_nb_view_by_individal_code(p2)
     # print(views_p1, views_p2)
     r = random.random()
-    if r < crossover_rate:
-        co_i = random.randint(0, views_p1-1)
-        co_j = random.randint(0, views_p2-1)
-        o1 = p1[:co_i+1] + p2[co_j+1:views_p2] + p1[views_p1: views_p1+co_i] + p2[views_p2+co_j:]
-        o2 = p2[:co_j+1] + p1[co_i+1:views_p1] + p2[views_p2: views_p2+co_j] + p1[views_p1+co_i:]
-        if is_remove:# remove出现重复视图
-            o1 = quchong(o1)
-            o2 = quchong(o2)
-        else:
-            if len(o1) > max_len:
-                o1 = quchong(o1)  # remove出现重复视图
-            if len(o2) > max_len:
-                o2 = quchong(o2)  # remove出现重复视图
-        return o1, o2
-    else:
+    if r >= crossover_rate:
         return p1, p2
+
+    co_i = random.randint(0, views_p1-1)
+    co_j = random.randint(0, views_p2-1)
+    o1 = p1[:co_i+1] + p2[co_j+1:views_p2] + p1[views_p1: views_p1+co_i] + p2[views_p2+co_j:]
+    o2 = p2[:co_j+1] + p1[co_i+1:views_p1] + p2[views_p2: views_p2+co_j] + p1[views_p1+co_i:]
+    if is_remove:# remove出现重复视图
+        o1 = quchong(o1)
+        o2 = quchong(o2)
+    else:
+        if len(o1) > max_len:
+            o1 = quchong(o1)  # remove出现重复视图
+        if len(o2) > max_len:
+            o2 = quchong(o2)  # remove出现重复视图
+    return o1, o2
 
 
 def mutation(p1, mutation_rate, is_remove=is_remove, max_len=40):
@@ -60,18 +59,13 @@ def mutation(p1, mutation_rate, is_remove=is_remove, max_len=40):
         if i < views_p:
             # 变异点位于视图编码，进行视图变异
             mutation_view = list(range(nb_view))
-            # mutation_view.remove(p[i])   #会出现重复视图
-            mutation_view.remove(p[i])
-            p[i] = random.choice(mutation_view)
         else:
             mutation_view = list(range(nb_fusion_way))
-            mutation_view.remove(p[i])
-            p[i] = random.choice(mutation_view)
-    if is_remove:
+        # mutation_view.remove(p[i])   #会出现重复视图
+        mutation_view.remove(p[i])
+        p[i] = random.choice(mutation_view)
+    if len(p) > max_len or is_remove:
         p = quchong(p)  # remove出现重复视图
-    else:
-        if len(p) > max_len:
-            p = quchong(p)  # remove出现重复视图
     return p
 
 
@@ -83,10 +77,13 @@ def selection(P_t, Q_t):
 
     def select_p1(select_pool):
         two = random.sample(range(len(select_pool)), 2)
-        a1 = '-'.join([str(i) for i in select_pool[two[0]]])
-        a2 = '-'.join([str(i) for i in select_pool[two[1]]])
-        p1 = select_pool[two[0]] if shared_code_acc[a1] > shared_code_acc[a2] else select_pool[two[1]]
-        return p1
+        a1 = '-'.join(str(i) for i in select_pool[two[0]])
+        a2 = '-'.join(str(i) for i in select_pool[two[1]])
+        return (
+            select_pool[two[0]]
+            if shared_code_acc[a1] > shared_code_acc[a2]
+            else select_pool[two[1]]
+        )
     P_t1 = []
     Pt_Qt = P_t+Q_t
     while len(P_t1) < len(P_t):
@@ -126,10 +123,13 @@ def gen_offspring(P_t):
     # 1. Crossover
     def select_p():
         two = random.sample(range(len(P_t)), 2)
-        a1 = '-'.join([str(i) for i in P_t[two[0]]])
-        a2 = '-'.join([str(i) for i in P_t[two[1]]])
-        p1 = P_t[two[0]] if shared_code_acc[a1] > shared_code_acc[a2] else P_t[two[1]]
-        return p1
+        a1 = '-'.join(str(i) for i in P_t[two[0]])
+        a2 = '-'.join(str(i) for i in P_t[two[1]])
+        return (
+            P_t[two[0]]
+            if shared_code_acc[a1] > shared_code_acc[a2]
+            else P_t[two[1]]
+        )
     Q_t = []
     while len(Q_t) < len(P_t):
         p1 = select_p()

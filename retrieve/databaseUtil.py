@@ -33,9 +33,7 @@ def imgs2npy(imgs_file_list, save_dir='database', save_name='x'):
     :param save_name: path of npy file to save
     :return: images in the format of array of numpy
     '''
-    imgs = []
-    for img_fn in imgs_file_list:
-        imgs.append(npy_util.read_image(img_fn))
+    imgs = [npy_util.read_image(img_fn) for img_fn in imgs_file_list]
     imgs = np.array(imgs)
     np.save(os.path.join(save_dir, save_name), imgs)
     return imgs
