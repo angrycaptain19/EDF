@@ -14,12 +14,12 @@ data_name = model_data+'-'+data_name
 print(data_name)
 data_base_dir = os.path.join('..', data_name)
 data_dir = os.path.join(data_base_dir, data_name+'-EDF')
-if model_data == 'PubChem':
-    code = '3-2-0-1-0-4-0'  # PubChem
-if model_data == 'Chembl':
-    code = '4-0-3-1-2-3-4-0-4'  # Chembl
 if model_data == 'ChemBook':
     code = '0-1-4-2-2-1-1'  # ChemBook ef10
+elif model_data == 'Chembl':
+    code = '4-0-3-1-2-3-4-0-4'  # Chembl
+elif model_data == 'PubChem':
+    code = '3-2-0-1-0-4-0'  # PubChem
 
 
 def get_data():
@@ -38,10 +38,7 @@ def cal_dist(topk=[1, 5, 10], metric="euclidean"):
     sort_idx1 = np.argsort(dis, axis=1)
     def report_topk(k):
         sort_idx = sort_idx1[:, :k]
-        count = 0
-        for i in range(num_test):
-            if test_y[i] in train_y[i, sort_idx[i, :]]:
-                count += 1
+        count = sum(test_y[i] in train_y[i, sort_idx[i, :]] for i in range(num_test))
         print(count/num_test)
     for k in topk:
         report_topk(k)

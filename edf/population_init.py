@@ -23,8 +23,8 @@ def generate_population(views=10, pop_size=10, verbose=0):
     while len(population) < pop_size:
     # for i in range(pop_size):
         # view_code at least contains two elements
-        view_code = random.sample(range(0, views), k=random.randint(2, views))
-        fusion_code = random.choices(range(0, len(fusion_ways)), k=len(view_code)-1)
+        view_code = random.sample(range(views), k=random.randint(2, views))
+        fusion_code = random.choices(range(len(fusion_ways)), k=len(view_code)-1)
         pop = view_code+fusion_code
         if verbose == 1:
             print(f'view_code:{view_code}')

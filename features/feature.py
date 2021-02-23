@@ -39,10 +39,7 @@ class Feature:
     def get_input_edf(self, code, views):
         code_list = [int(i) for i in code.strip().split('-')]
         view_code = code_list[:len(code_list) // 2 + 1]
-        edf_input_views = []
-        for i in code_list:
-            edf_input_views.append(views[i])
-        return edf_input_views
+        return [views[i] for i in code_list]
 
     def get_feats_by_edf(self, views, save_data_suffix='train_X', edf_model_name='3-2-0-1-0-4-0'):
         if save_data_suffix is None:

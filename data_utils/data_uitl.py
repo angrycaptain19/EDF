@@ -47,7 +47,7 @@ def get_views(data_name='AWA1', view_data_dir='view', idx_split=0):
     if data_name in ['ChemBook',  'Chembl', 'PubChem', 'tiny-imagenet200']:
         models_ls = ['resnet50', 'desnet121', 'MobileNetV2', 'Xception', 'InceptionV3']
         if nb_view == 10:
-            models_ls = models_ls+['resnet18', 'resnet34', 'desnet169', 'desnet201', 'NASNetMobile']
+            models_ls += ['resnet18', 'resnet34', 'desnet169', 'desnet201', 'NASNetMobile']
         view_train_x = []
         view_test_x = []
         for model in models_ls:

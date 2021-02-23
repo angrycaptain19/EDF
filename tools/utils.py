@@ -21,8 +21,8 @@ def write_result_file(str, fn='result.csv'):
 
 def load_result(result_fn=os.path.join(data_name+'_view_result', paras['result_save_dir'], 'result.csv')):
     shared_code_acc = {}
-    shared_code_acc_set = set()
     with open(result_fn) as f:
+        shared_code_acc_set = set()
         for item in f.readlines():
             items = item.strip().split(',')
             if items[0] not in shared_code_acc_set:
@@ -31,7 +31,7 @@ def load_result(result_fn=os.path.join(data_name+'_view_result', paras['result_s
 
 
 def list2str(list1):
-    return '-'.join([str(i) for i in list1])
+    return '-'.join(str(i) for i in list1)
 
 def sign_sqrt(x):
     # mfb_sign_sqrt = torch.sqrt(F.relu(mfb_out)) - torch.sqrt(F.relu(-mfb_out))

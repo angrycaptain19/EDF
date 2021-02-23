@@ -51,7 +51,7 @@ def train_individual(individual_code, result_save_dir='.', gpu='0'):
     for i in individual_code[:nb_view]:
         view_train_xx.append(view_train_x[i])
         view_test_xx.append(view_test_x[i])
-    individual_code_str = '-'.join([str(ind) for ind in individual_code])
+    individual_code_str = '-'.join(str(ind) for ind in individual_code)
     nb_feats = [i.shape[1] for i in view_train_x]
     model = code2net(individual_code=individual_code, nb_feats=nb_feats)
     # print(model.summary())
@@ -78,17 +78,15 @@ def train_individual(individual_code, result_save_dir='.', gpu='0'):
 
 
 def find_same_code_acc(individual_code, result_save_dir='.'):
-    individual_code_str = '-'.join([str(ind) for ind in individual_code])
-    return individual_code_str
+    return '-'.join(str(ind) for ind in individual_code)
 
 
 def record_code(individual_code, result_save_dir='.'):
-    individual_code_str = '-'.join([str(ind) for ind in individual_code])
-    return individual_code_str
+    return '-'.join(str(ind) for ind in individual_code)
 
 
 def list2str(list1):
-    return '-'.join([str(i) for i in list1])
+    return '-'.join(str(i) for i in list1)
 
 
 def multi_proccess_train(i_iter, Q_t, shared_code_sets):

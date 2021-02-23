@@ -3,7 +3,7 @@
 #email: liangxinyan48@163.com
 
 def get_configs():
-    paras = {  # 'fusion_ways': [ 'mul', 'cat', 'max'],
+    return {  # 'fusion_ways': [ 'mul', 'cat', 'max'],
         # 'data_name': 'tiny-imagenet200',
         # 'data_name': 'ChemBook',
         # 'data_name': 'Chembl',
@@ -37,4 +37,3 @@ def get_configs():
         # 'classes': 50,
         'classes': 6,
     }
-    return paras

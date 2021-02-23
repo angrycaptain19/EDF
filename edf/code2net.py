@@ -69,8 +69,7 @@ def code2net(individual_code, nb_feats=[1024, 2048, 1028]):
     fusion_x = tf.keras.layers.Lambda(l2_norm)(fusion_x)
     out_x = tf.keras.layers.Dense(units=classes, activation='softmax')(fusion_x)
 
-    model = tf.keras.models.Model(inputs=input_x, outputs=[out_x])
-    return model
+    return tf.keras.models.Model(inputs=input_x, outputs=[out_x])
 
 
 if __name__ == '__main__':

@@ -21,10 +21,9 @@ def query(query_img_url):
     Feats = feature.Feature()
     views = Feats.get_feats_multi_views(view_models, x=query_img, save_data_suffix=None)
     x_feats = Feats.get_feats_by_edf(views=views, save_data_suffix=None, edf_model_name=edf_model_name)
-    topk_imgs = retrieve.topk_imgs(query_img=x_feats,
+    return retrieve.topk_imgs(query_img=x_feats,
                                    database_vecs=database_vecs,
                                    database_imgs=database_imgs,
                                    topk=10,
                                    metric="euclidean")
-    return topk_imgs
 
